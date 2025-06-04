@@ -6,6 +6,8 @@ import {
   APP_READY,
   subscribe,
   initialize,
+  getConfig,
+  mergeConfig,
 } from "@edx/frontend-platform";
 import { AppProvider, ErrorPage } from "@edx/frontend-platform/react";
 import ReactDOM from "react-dom";
@@ -19,14 +21,10 @@ import App from "./app/App";
 
 import "./index.scss";
 
-// TODO
-const GOOGLE_CLIENT_ID =
-  "CLIENT_ID_HERE";
-
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider>
-      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <GoogleOAuthProvider clientId={getConfig().GOOGLE_CLIENT_ID}>
         <Header />
         <App />
         <FooterSlot />
@@ -45,4 +43,11 @@ subscribe(APP_INIT_ERROR, (error) => {
 
 initialize({
   messages,
+    handlers: {
+    config: () => {
+      mergeConfig({
+        GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+      }, 'App loadConfig override handler');
+    },
+  },
 });

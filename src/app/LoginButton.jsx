@@ -1,3 +1,4 @@
+import React from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 
 function LoginButton({ onSuccess, onError }) {
@@ -13,7 +14,7 @@ function LoginButton({ onSuccess, onError }) {
     ].join(" "),
   });
 
-  return <button onClick={() => login()}>Sign in with Google</button>;
+  return <div onClick={() => login()}>Sign in with Google</div>;
 }
 
 export default LoginButton;

@@ -9,22 +9,32 @@ import GridBarChart from "./charts/GridBarChart";
 
 import "./AutoDashboard.scss";
 
-const AutoDashboard = ({ accessToken, formId }) => {
-  const [{ data: formMeta, loading: loadingMeta, error: errMeta }] = useAxios({
-    url: `https://forms.googleapis.com/v1/forms/${formId}`,
+const AutoDashboard = ({ accessToken, formIdEn, formIdFr }) => {
+  const [{ data: formMetaEn, loading: loadingMetaEn, error: errMetaEn }] = useAxios({
+    url: `https://forms.googleapis.com/v1/forms/${formIdEn}`,
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 
-  const [{ data: respData, loading: loadingResp, error: errResp }] = useAxios({
-    url: `https://forms.googleapis.com/v1/forms/${formId}/responses`,
+  const [{ data: formMetaFr, loading: loadingMetaFr, error: errMetaFr }] = useAxios({
+    url: `https://forms.googleapis.com/v1/forms/${formIdFr}`,
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 
-  if (loadingMeta || loadingResp) return <p>Loading dashboard…</p>;
-  if (errMeta || errResp) return <p>Error loading data.</p>;
+  const [{ data: respDataEn, loading: loadingRespEn, error: errRespEn }] = useAxios({
+    url: `https://forms.googleapis.com/v1/forms/${formIdEn}/responses`,
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
 
-  const responses = respData.responses || [];
-  const items = formMeta.items || [];
+  const [{ data: respDataFr, loading: loadingRespFr, error: errRespFr }] = useAxios({
+    url: `https://forms.googleapis.com/v1/forms/${formIdFr}/responses`,
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  if (loadingMetaEn || loadingRespEn || loadingMetaFr || loadingRespFr) return <p>Loading dashboard…</p>;
+  if (errMetaEn || errRespEn || errMetaFr || errRespFr) return <p>Error loading data.</p>;
+
+  const responses = [...respDataEn.responses || [], ...respDataFr.responses || []];
+  const items = formMetaEn.items || [];
 
   return (
     <div className="auto-dashboard">
@@ -41,7 +51,7 @@ const AutoDashboard = ({ accessToken, formId }) => {
             <ChoicePieChart
               key={qid}
               questionId={qid}
-              formStructure={formMeta}
+              formStructure={formMetaEn}
               responses={responses}
             />
           );

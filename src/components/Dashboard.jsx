@@ -1,18 +1,14 @@
-// import useAxios from "axios-hooks";
-
-import Table from "./Table";
+import TableDataWrapper from "./TableDataWrapper";
 import AutoDashboard from "./AutoDashboard";
 
 const Dashboard = ({ accessToken, formId }) => {
-  // const [{ data, loading, error }] = useAxios({
-  //   url: `https://forms.googleapis.com/v1/forms/${formId}/responses`,
-  //   headers: { Authorization: `Bearer ${accessToken}` },
-  // });
+  const formIdEn = "14MuRMvwkwu2g3tFH3KGcAa9fR_3rCf3RfDRKTZ9MyiA";
+  const formIdFr = "17Mpxpp44GW4VPEXK0qLZcVLYc5Ikm_vNuipTMPngHxc";
 
   return (
     <>
-      <Table accessToken={accessToken} formId={formId} />
-      <AutoDashboard accessToken={accessToken} formId={formId} />
+      <TableDataWrapper accessToken={accessToken} formIdEn={formIdEn} formIdFr={formIdFr} />
+      <AutoDashboard accessToken={accessToken} formIdEn={formIdEn} formIdFr={formIdFr} />
     </>
   );
 };
