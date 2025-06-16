@@ -3,7 +3,7 @@ import "./Table.scss";
 
 const PAGE_SIZE = 5;
 
-const Table = () => {
+const Table = ({ responses }) => {
   const [page, setPage] = useState(0);
 
   const totalPages = Math.ceil(responses.length / PAGE_SIZE);
