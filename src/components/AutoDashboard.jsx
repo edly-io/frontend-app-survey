@@ -9,32 +9,8 @@ import GridBarChart from "./charts/GridBarChart";
 
 import "./AutoDashboard.scss";
 
-const AutoDashboard = ({ accessToken, formIdEn, formIdFr }) => {
-  const [{ data: formMetaEn, loading: loadingMetaEn, error: errMetaEn }] = useAxios({
-    url: `https://forms.googleapis.com/v1/forms/${formIdEn}`,
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
-
-  const [{ data: formMetaFr, loading: loadingMetaFr, error: errMetaFr }] = useAxios({
-    url: `https://forms.googleapis.com/v1/forms/${formIdFr}`,
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
-
-  const [{ data: respDataEn, loading: loadingRespEn, error: errRespEn }] = useAxios({
-    url: `https://forms.googleapis.com/v1/forms/${formIdEn}/responses`,
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
-
-  const [{ data: respDataFr, loading: loadingRespFr, error: errRespFr }] = useAxios({
-    url: `https://forms.googleapis.com/v1/forms/${formIdFr}/responses`,
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
-
-  if (loadingMetaEn || loadingRespEn || loadingMetaFr || loadingRespFr) return <p>Loading dashboard…</p>;
-  if (errMetaEn || errRespEn || errMetaFr || errRespFr) return <p>Error loading data.</p>;
-
-  const responses = [...respDataEn.responses || [], ...respDataFr.responses || []];
-  const items = formMetaEn.items || [];
+const AutoDashboard = ({ data }) => {
+const { meta: formMeta, responses, meta: { items = [] } = {} } = data;
 
   return (
     <div className="auto-dashboard">
@@ -51,7 +27,7 @@ const AutoDashboard = ({ accessToken, formIdEn, formIdFr }) => {
             <ChoicePieChart
               key={qid}
               questionId={qid}
-              formStructure={formMetaEn}
+              formStructure={formMeta}
               responses={responses}
             />
           );

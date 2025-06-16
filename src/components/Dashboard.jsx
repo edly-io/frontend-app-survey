@@ -1,14 +1,50 @@
-import TableDataWrapper from "./TableDataWrapper";
-import AutoDashboard from "./AutoDashboard";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Dashboard = ({ accessToken, formId }) => {
-  const formIdEn = "14MuRMvwkwu2g3tFH3KGcAa9fR_3rCf3RfDRKTZ9MyiA";
-  const formIdFr = "17Mpxpp44GW4VPEXK0qLZcVLYc5Ikm_vNuipTMPngHxc";
+import AutoDashboard from "./AutoDashboard";
+import Table from './Table';
+
+import { getAuthenticatedHttpClient } from "@edx/frontend-platform/auth";
+import { getConfig } from "@edx/frontend-platform";
+
+const Dashboard = () => {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
+  const apiUrl = `${getConfig().LMS_BASE_URL}/api/`;
+
+  useEffect(() => {
+    const fetchFormsData = async () => {
+      try {
+        const response = await getAuthenticatedHttpClient().get(
+          apiUrl + "responses/"
+        )
+        setData(response.data);
+      } catch (error) {
+        setError(error.toString());
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchFormsData();
+  }, []);
+
+  if (loading) return <></>;
+  if (error) <>{error}</>;
+
+  if (Object.keys(data).length === 0) return <></>;
+  //   navigate("404", { replace: true });
+  //   return null;
+  // }
 
   return (
     <>
-      <TableDataWrapper accessToken={accessToken} formIdEn={formIdEn} formIdFr={formIdFr} />
-      <AutoDashboard accessToken={accessToken} formIdEn={formIdEn} formIdFr={formIdFr} />
+      <Table responses={data.responses} />
+      <AutoDashboard data={data} />
     </>
   );
 };
