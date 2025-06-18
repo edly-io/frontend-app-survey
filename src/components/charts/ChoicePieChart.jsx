@@ -1,33 +1,44 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { VictoryPie, VictoryTooltip } from "victory";
 
 const ChoicePieChart = ({ questionId, formStructure, responses }) => {
+  // 1. Find the question definition
   const item = formStructure.items.find(
     (i) => i.questionItem?.question?.questionId === questionId
   );
-  const title = item?.title || "Untitled Question";
-  const options = item?.questionItem?.question?.choiceQuestion?.options || [];
+  const title = item?.title ?? "Untitled Question";
+  const options = item?.questionItem?.question?.choiceQuestion?.options ?? [];
 
-  const counts = options.reduce((acc, o) => {
-    acc[o.value] = 0;
+  // 2. Count up each option
+  const counts = useMemo(() => {
+    const acc = {};
+    options.forEach((o) => { acc[o.value] = 0; });
+    responses.forEach((r) => {
+      const answer =
+        r.answers?.[questionId]?.textAnswers?.answers?.[0]?.value;
+      if (answer in acc) {
+        acc[answer]++;
+      }
+    });
     return acc;
-  }, {});
-  responses.forEach((r) => {
-    const ans = r.answers?.[questionId]?.textAnswers?.answers?.[0]?.value;
-    if (ans) counts[ans] = (counts[ans] || 0) + 1;
-  });
+  }, [options, responses, questionId]);
 
+  // 3. Build the data array and compute total
   const data = Object.entries(counts)
     .map(([x, y]) => ({ x, y }))
     .filter((d) => d.y > 0);
+  const total = data.reduce((sum, d) => sum + d.y, 0);
 
   return (
     <div className="chart-container">
-      <h3>{title}</h3>
+      <p>{title}</p>
       <VictoryPie
         data={data}
         colorScale="qualitative"
-        labels={({ datum }) => `${datum.x}: ${datum.y}`}
+        // 4. Show both count and percentage in the tooltip
+        labels={({ datum }) =>
+          `${datum.x}: ${datum.y} (${((datum.y / total) * 100).toFixed(1)}%)`
+        }
         labelComponent={<VictoryTooltip />}
       />
     </div>

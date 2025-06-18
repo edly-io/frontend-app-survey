@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import AutoDashboard from "./AutoDashboard";
 import Table from './Table';
@@ -11,8 +10,6 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
-
-  const navigate = useNavigate();
 
   const apiUrl = `${getConfig().LMS_BASE_URL}/api/`;
 
@@ -33,17 +30,14 @@ const Dashboard = () => {
     fetchFormsData();
   }, []);
 
-  if (loading) return <></>;
+  if (loading) return <>Loading...</>;
   if (error) <>{error}</>;
 
   if (Object.keys(data).length === 0) return <></>;
-  //   navigate("404", { replace: true });
-  //   return null;
-  // }
 
   return (
     <>
-      <Table responses={data.responses} />
+      <Table data={data} />
       <AutoDashboard data={data} />
     </>
   );

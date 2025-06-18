@@ -1,9 +1,7 @@
 import React from "react";
-import useAxios from "axios-hooks";
 
 import ChoicePieChart from "./charts/ChoicePieChart";
 import ScaleHistogram from "./charts/ScaleHistogram";
-import TextResponseChart from "./charts/TextResponseChart";
 import DateLineChart from "./charts/DateLineChart";
 import GridBarChart from "./charts/GridBarChart";
 
@@ -40,17 +38,6 @@ const { meta: formMeta, responses, meta: { items = [] } = {} } = data;
           );
         }
 
-        if (q.textQuestion) {
-          // Short answer / paragraph
-          return (
-            <TextResponseChart
-              key={qid}
-              questionId={qid}
-              responses={responses}
-            />
-          );
-        }
-
         if (item.questionGroupItem) {
           // Grid (matrix) questions
           return (
@@ -72,7 +59,7 @@ const { meta: formMeta, responses, meta: { items = [] } = {} } = data;
 
         // Fallback: show a simple text chart
         return (
-          <TextResponseChart key={qid} questionId={qid} responses={responses} />
+          <></>
         );
       })}
     </div>
