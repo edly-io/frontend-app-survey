@@ -13,11 +13,20 @@ const Dashboard = () => {
 
   const apiUrl = `${getConfig().LMS_BASE_URL}/api/`;
 
+  const getCookieValue = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
   useEffect(() => {
+    const language = getCookieValue('openedx-language-preference');
+    const isEnglish = language === 'en';
+
     const fetchFormsData = async () => {
       try {
         const response = await getAuthenticatedHttpClient().get(
-          apiUrl + "responses/"
+          apiUrl + `responses/q?language=${isEnglish ? 'en' : 'fr-ca'}`,
         )
         setData(response.data);
       } catch (error) {

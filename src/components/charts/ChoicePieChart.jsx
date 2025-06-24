@@ -1,12 +1,11 @@
 import React, { useMemo } from "react";
 import { VictoryPie, VictoryTooltip } from "victory";
 
-const ChoicePieChart = ({ questionId, formStructure, responses }) => {
+const ChoicePieChart = ({ questionId, formStructure, responses, title }) => {
   // 1. Find the question definition
   const item = formStructure.items.find(
     (i) => i.questionItem?.question?.questionId === questionId
   );
-  const title = item?.title ?? "Untitled Question";
   const options = item?.questionItem?.question?.choiceQuestion?.options ?? [];
 
   // 2. Count up each option

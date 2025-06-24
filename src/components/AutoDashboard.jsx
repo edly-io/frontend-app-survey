@@ -27,6 +27,7 @@ const { meta: formMeta, responses, meta: { items = [] } = {} } = data;
               questionId={qid}
               formStructure={formMeta}
               responses={responses}
+              title={title}
             />
           );
         }
