@@ -29,8 +29,8 @@ const ChoicePieChart = ({ questionId, formStructure, responses, title }) => {
   const total = data.reduce((sum, d) => sum + d.y, 0);
 
   return (
-    <div className="chart-container">
-      <p>{title}</p>
+    <div className="chart-container newSmallCard newCard">
+      <p className="cartTitle">{title}</p>
       <VictoryPie
         data={data}
         colorScale="qualitative"

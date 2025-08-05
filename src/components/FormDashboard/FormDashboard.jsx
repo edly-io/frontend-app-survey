@@ -1,0 +1,73 @@
+import { useEffect, useState } from 'react';
+
+import AutoDashboard from "../AutoDashboard";
+import Table from '../TableTemp';
+
+import { getAuthenticatedHttpClient } from "@edx/frontend-platform/auth";
+import { getConfig } from "@edx/frontend-platform";
+
+const FormDashboard = () => {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [error, setError] = useState("");
+
+  const apiUrl = `${getConfig().LMS_BASE_URL}/api/`;
+
+  const getCookieValue = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responses = await getAuthenticatedHttpClient().get(
+          apiUrl + 'responses/registration/'
+        )
+
+        console.log(responses)
+      } catch (error) {
+        console.log(error);
+      }
+    } 
+
+    fetchData();
+  })
+
+  useEffect(() => {
+    const language = getCookieValue('openedx-language-preference');
+    const isEnglish = language === 'en';
+
+    const fetchFormsData = async () => {
+      try {
+        const response = await getAuthenticatedHttpClient().get(
+          apiUrl + `responses/q?language=${isEnglish ? 'en' : 'fr-ca'}`,
+        )
+        setData(response.data);
+      } catch (error) {
+        setError(error.toString());
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchFormsData();
+  }, []);
+
+  if (loading) return <>Loading...</>;
+  if (error) <>{error}</>;
+
+  if (Object.keys(data).length === 0) return <></>;
+
+  console.log(data);
+
+  return (
+    <>
+      <Table data={data} />
+      <AutoDashboard data={data} />
+    </>
+  );
+};
+
+export default FormDashboard;
