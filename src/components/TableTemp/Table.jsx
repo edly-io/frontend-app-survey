@@ -46,6 +46,7 @@ const Table = ({ data }) => {
 
               const isExpanded = expandedRows.has(response.responseId);
               let email = "";
+              let timeStamp = new Date(response.lastSubmittedTime).toLocaleString();
 
               Object.entries(response.answers || {})
                 .map(([qid, ans]) => {
@@ -62,7 +63,7 @@ const Table = ({ data }) => {
                 <>
                   <tr key={response.responseId}>
                     <td>{email}</td>
-                    <td>{new Date(response.lastSubmittedTime).toLocaleString()}</td>
+                    <td>{timeStamp === 'Invalid Date' ? 'Unavailble' : timeStamp}</td>
                     <td onClick={() => toggleRow(response.responseId)} className="actionData">
                       <span>
                       {isExpanded ? '-' : '+'}

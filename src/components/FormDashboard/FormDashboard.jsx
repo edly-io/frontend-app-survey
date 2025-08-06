@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import AutoDashboard from "../AutoDashboard";
 import Table from '../TableTemp';
@@ -7,6 +8,10 @@ import { getAuthenticatedHttpClient } from "@edx/frontend-platform/auth";
 import { getConfig } from "@edx/frontend-platform";
 
 const FormDashboard = () => {
+  const [ searchParams ] = useSearchParams();
+  const type = searchParams.get('type') || '';
+  const id = searchParams.get('id') || '';
+
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
@@ -20,29 +25,23 @@ const FormDashboard = () => {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const responses = await getAuthenticatedHttpClient().get(
-          apiUrl + 'responses/registration/'
-        )
-
-        console.log(responses)
-      } catch (error) {
-        console.log(error);
-      }
-    } 
-
-    fetchData();
-  })
-
-  useEffect(() => {
     const language = getCookieValue('openedx-language-preference');
     const isEnglish = language === 'en';
 
     const fetchFormsData = async () => {
+      let REQUEST_URL = "";
+
+      if (type === 'course') {
+        REQUEST_URL = `responses/course/q?form_id=${id}`;
+      } else if (type === 'registration') {
+        REQUEST_URL = `responses/registration`;
+      } else if (type === 'onboarding') {
+        REQUEST_URL = `responses/q?language=${isEnglish ? 'en' : 'fr-ca'}`
+      }
+
       try {
         const response = await getAuthenticatedHttpClient().get(
-          apiUrl + `responses/q?language=${isEnglish ? 'en' : 'fr-ca'}`,
+          apiUrl + REQUEST_URL,
         )
         setData(response.data);
       } catch (error) {
