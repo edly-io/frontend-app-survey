@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { getAuthenticatedHttpClient } from "@edx/frontend-platform/auth";
 import { getConfig } from "@edx/frontend-platform";
@@ -84,11 +84,11 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {pageData.map(({ id, username, email}) => (
+            {pageData.map(({ id, username, email }) => (
               <tr key={id}>
                 <td>{username}</td>
                 <td>{email}</td>
-                <td>View Details</td>
+                <td><Link to={`/user-dashboard?username=${username}&email=${email}`}>View Details</Link></td>
               </tr>
             ))}
           </tbody>

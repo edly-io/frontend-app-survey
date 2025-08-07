@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import AutoDashboard from "../AutoDashboard";
-import Table from '../TableTemp';
-
 import { getAuthenticatedHttpClient } from "@edx/frontend-platform/auth";
 import { getConfig } from "@edx/frontend-platform";
+
+import Loader from '../Loader';
+import AutoDashboard from "../AutoDashboard";
+import Table from '../TableTemp';
 
 const FormDashboard = () => {
   const [ searchParams ] = useSearchParams();
@@ -54,7 +55,7 @@ const FormDashboard = () => {
     fetchFormsData();
   }, []);
 
-  if (loading) return <>Loading...</>;
+  if (loading) return <Loader />;
   if (error) <>{error}</>;
 
   if (Object.keys(data).length === 0) return <></>;
