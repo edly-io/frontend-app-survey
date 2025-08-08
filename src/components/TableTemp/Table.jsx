@@ -43,10 +43,11 @@ const Table = ({ data }) => {
           </thead>
           <tbody>
             {pageData.map(response => {
-
               const isExpanded = expandedRows.has(response.responseId);
               let email = "";
-              let timeStamp = new Date(response.lastSubmittedTime).toLocaleString();
+              let timeStamp = new Date(
+                response.lastSubmittedTime || response.answers.lastSubmittedTime.textAnswers.answers[0].value
+              ).toLocaleString();
 
               Object.entries(response.answers || {})
                 .map(([qid, ans]) => {

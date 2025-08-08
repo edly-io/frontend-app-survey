@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 
 import { getAuthenticatedHttpClient } from "@edx/frontend-platform/auth";
 import { getConfig } from "@edx/frontend-platform";
@@ -25,7 +25,6 @@ const UserDashboard = () => {
   })
 
   const apiUrl = `${getConfig().LMS_BASE_URL}/api/`;
-
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -96,6 +95,9 @@ const UserDashboard = () => {
 
   return (
     <>
+      <div className="back-button">
+        <Link to="/">← Back</Link>
+      </div>
       <h1 className="main-heading">All of the available forms</h1>
       <div className="tab-wrapper">
         <ul className="tab-list">

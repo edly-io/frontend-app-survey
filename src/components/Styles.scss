@@ -352,3 +352,24 @@ align-items: start;
   padding: 10px 20px;
   border: 1px solid #eee;
 }
+
+
+.back-button {
+  display: inline-block;
+  padding: 8px 14px;
+  background-color: #f0f0f0;
+  color: #BE3712 !important;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #ddd;
+}
+
+.back-button:active {
+  background-color: #ccc;
+}

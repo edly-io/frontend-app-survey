@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 
 import { getAuthenticatedHttpClient } from "@edx/frontend-platform/auth";
 import { getConfig } from "@edx/frontend-platform";
@@ -64,6 +64,9 @@ const FormDashboard = () => {
 
   return (
     <>
+      <div className="back-button">
+        <Link to="/">← Back</Link>
+      </div>
       <Table data={data} />
       <AutoDashboard data={data} />
     </>
