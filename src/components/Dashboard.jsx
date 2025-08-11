@@ -16,7 +16,7 @@ const Dashboard = () => {
   })
   const dropdownRef = useRef(null);
 
-  const navitate = useNavigate();
+  const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
 
@@ -56,17 +56,17 @@ const Dashboard = () => {
     <h1 className="main-heading">All of the available forms</h1>
     <div className="tab-wrapper">
       <ul className="tab-list">
-        <li className="tab" onClick={() => navitate(`${FORM_DASHBOARD}?type=onboarding`)}>Onboarding Form</li>
-        <li className="tab" onClick={() => navitate(`${FORM_DASHBOARD}?type=registration`)} >Registration Form</li>
+        <li className="tab" onClick={() => navigate(`${FORM_DASHBOARD}?type=onboarding`)}>Participation Form</li>
+        <li className="tab" onClick={() => navigate(`${FORM_DASHBOARD}?type=registration`)} >Registration Form</li>
         <li
           className={`tab dropdown-tab ${isDropdownOpen ? "open" : ""}`}
           onClick={handleDropdownToggle}
           ref={dropdownRef}
         >
-          Courses
+          Evaluation Forms
           <ul className={`dropdown ${isDropdownOpen ? "show" : ""}`}>
             {data.feedback_forms.map(({ id, course, form_id }) => (
-              <li key={id} onClick={() => navitate(`${FORM_DASHBOARD}?type=course&id=${form_id}`)}>{course}</li>
+              <li key={id} onClick={() => navigate(`${FORM_DASHBOARD}?type=course&id=${form_id}`)}>{course}</li>
             ))}
           </ul>
         </li>

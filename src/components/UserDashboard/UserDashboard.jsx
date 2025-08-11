@@ -111,7 +111,7 @@ const UserDashboard = () => {
             className={`tab ${activeTab === "onboarding" ? "active" : ""}`}
             onClick={() => handleTabClick("onboarding")}
           >
-            Onboarding Form
+            Participation Form
           </li>
           <li
             className={`tab dropdown-tab ${isDropdownOpen ? "open" : ""} ${
@@ -122,7 +122,7 @@ const UserDashboard = () => {
             onClick={handleDropdownToggle}
             ref={dropdownRef}
           >
-            Courses
+            Evaluation Forms
             <ul className={`dropdown ${isDropdownOpen ? "show" : ""}`}>
               {coursesList.map(({ id, course, form_id }) => (
                 <li onClick={() => {
