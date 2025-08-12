@@ -53,11 +53,11 @@ const Dashboard = () => {
 
   return (
    <div className="main-dashboard">
-    <h1 className="main-heading">All of the available forms</h1>
+    <h1 className="main-heading">Dashboard</h1>
     <div className="tab-wrapper">
       <ul className="tab-list">
-        <li className="tab" onClick={() => navigate(`${FORM_DASHBOARD}?type=onboarding`)}>Participation Form</li>
-        <li className="tab" onClick={() => navigate(`${FORM_DASHBOARD}?type=registration`)} >Registration Form</li>
+        <li className="tab" onClick={() => navigate(`${FORM_DASHBOARD}?type=onboarding&title=Participation%20Form`)}>Participation Form</li>
+        <li className="tab" onClick={() => navigate(`${FORM_DASHBOARD}?type=registration&title=Registration%20Form`)} >Registration Form</li>
         <li
           className={`tab dropdown-tab ${isDropdownOpen ? "open" : ""}`}
           onClick={handleDropdownToggle}
@@ -66,7 +66,7 @@ const Dashboard = () => {
           Evaluation Forms
           <ul className={`dropdown ${isDropdownOpen ? "show" : ""}`}>
             {data.feedback_forms.map(({ id, course, form_id }) => (
-              <li key={id} onClick={() => navigate(`${FORM_DASHBOARD}?type=course&id=${form_id}`)}>{course}</li>
+              <li key={id} onClick={() => navigate(`${FORM_DASHBOARD}?type=course&id=${form_id}&title=${course}`)}>{course}</li>
             ))}
           </ul>
         </li>
@@ -88,7 +88,11 @@ const Dashboard = () => {
               <tr key={id}>
                 <td>{username}</td>
                 <td>{email}</td>
-                <td><Link to={`/user-dashboard?username=${username}&email=${email}`}>View Details</Link></td>
+                <td>
+                  <Link to={`/user-dashboard?username=${username}&email=${email}`}>
+                    <span className='back-btn-text'>View Details</span>
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>

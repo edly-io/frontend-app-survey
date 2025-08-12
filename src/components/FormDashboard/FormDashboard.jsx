@@ -7,11 +7,14 @@ import { getConfig } from "@edx/frontend-platform";
 import Loader from '../Loader';
 import AutoDashboard from "../AutoDashboard";
 import Table from '../TableTemp';
+import RangeToggle from '../RangeToggle';
 
 const FormDashboard = () => {
   const [ searchParams ] = useSearchParams();
   const type = searchParams.get('type') || '';
+  const title = searchParams.get('title') || '';
   const id = searchParams.get('id') || '';
+  const [isPie, setIsPie] = useState(1);
 
   const navigate = useNavigate();
 
@@ -88,33 +91,50 @@ const FormDashboard = () => {
   if (Object.keys(data).length === 0) return <></>;
 
   return (
-    <div className="main-dashboard">
+    <>
       <div className="back-button">
-        <Link to="/">← Back</Link>
+        <Link to="/">
+          <span className='back-btn-text'>← Dashboard</span>
+        </Link>
       </div>
 
       <div className="tab-wrapper">
-        <h1 className="main-heading">All of the available forms</h1>  
         <ul className="tab-list">
-          <li className="tab" onClick={() => navigate(`/${FORM_DASHBOARD}?type=onboarding`)}>Participation Form</li>
-          <li className="tab" onClick={() => navigate(`/${FORM_DASHBOARD}?type=registration`)} >Registration Form</li>
+          <li 
+            className={`tab ${type === "onboarding" ? "active" : ""}`} 
+            onClick={() => navigate(`/${FORM_DASHBOARD}?type=onboarding&title=Participation%20Form`)}
+          >
+            Participation Form
+          </li>
+          <li 
+            className={`tab ${type === "registration" ? "active" : ""}`} 
+            onClick={() => navigate(`/${FORM_DASHBOARD}?type=registration&title=Registration%20Form`)} 
+          >
+            Registration Form
+          </li>
           <li
-            className={`tab dropdown-tab ${isDropdownOpen ? "open" : ""}`}
+            className={`tab dropdown-tab ${isDropdownOpen ? "open" : ""} ${
+              formsData.map(({ form_id }) => form_id).includes(id)
+                ? "active"
+                : ""
+            }`}
             onClick={handleDropdownToggle}
             ref={dropdownRef}
           >
             Evaluation Forms
             <ul className={`dropdown ${isDropdownOpen ? "show" : ""}`}>
               {formsData.map(({ id, course, form_id }) => (
-                <li key={id} onClick={() => navigate(`/${FORM_DASHBOARD}?type=course&id=${form_id}`)}>{course}</li>
+                <li key={id} onClick={() => navigate(`/${FORM_DASHBOARD}?type=course&id=${form_id}&title=${course}`)}>{course}</li>
               ))}
             </ul>
           </li>
         </ul>
+        <h1 className="main-heading">{title}</h1>  
       </div>
       <Table data={data} />
-      <AutoDashboard data={data} />
-    </div>
+      <RangeToggle value={isPie} onChange={setIsPie} label="Bar" />
+      <AutoDashboard data={data} isPie={isPie} />
+    </>
   );
 };
 

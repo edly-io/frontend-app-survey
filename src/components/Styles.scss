@@ -1,7 +1,7 @@
 // new page styles
 
 .main-heading {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bold;
   line-height: 40px;
   margin: 10px 0 0 0;
@@ -18,9 +18,7 @@
     
 
     .tab {
-      // position: relative;
       padding: 6px 10px;
-      // background: #f4f4f4;
       cursor: pointer;
       font-weight: 500;
       border-radius: 100px;
@@ -37,6 +35,9 @@
         background: transparent !important;
       }
 
+      &:active {
+        color: white;
+      }
     }
   }
   }
@@ -358,12 +359,15 @@ align-items: start;
   display: inline-block;
   padding: 8px 14px;
   background-color: #f0f0f0;
-  color: #BE3712 !important;
   text-decoration: none;
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
   transition: background-color 0.2s ease;
+}
+
+.back-btn-text {
+  color: #BE3712;
 }
 
 .back-button:hover {

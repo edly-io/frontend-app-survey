@@ -4,11 +4,12 @@ import ChoicePieChart from "./charts/ChoicePieChart";
 import ScaleHistogram from "./charts/ScaleHistogram";
 import DateLineChart from "./charts/DateLineChart";
 import GridBarChart from "./charts/GridBarChart";
+import BarChart from "./charts/BarChart";
 
 import "./AutoDashboard.scss";
 
-const AutoDashboard = ({ data }) => {
-const { meta: formMeta, responses, meta: { items = [] } = {} } = data;
+const AutoDashboard = ({ data, isPie }) => {
+  const { meta: formMeta, responses, meta: { items = [] } = {} } = data;
 
   return (
     <div className="auto-dashboard">
@@ -21,8 +22,16 @@ const { meta: formMeta, responses, meta: { items = [] } = {} } = data;
 
         if (q.choiceQuestion) {
           // Multiple choice / Checkbox / Dropdown
-          return (
+          return isPie ? (
             <ChoicePieChart
+              key={qid}
+              questionId={qid}
+              formStructure={formMeta}
+              responses={responses}
+              title={title}
+            />
+          ) : (
+            <BarChart
               key={qid}
               questionId={qid}
               formStructure={formMeta}
