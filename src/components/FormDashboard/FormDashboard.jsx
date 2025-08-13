@@ -6,8 +6,9 @@ import { getConfig } from "@edx/frontend-platform";
 
 import Loader from '../Loader';
 import AutoDashboard from "../AutoDashboard";
-import Table from '../TableTemp';
+import Table from '../Table';
 import RangeToggle from '../RangeToggle';
+import DownloadCSV from '../DownloadCSV';
 
 const FormDashboard = () => {
   const [ searchParams ] = useSearchParams();
@@ -114,7 +115,7 @@ const FormDashboard = () => {
           </li>
           <li
             className={`tab dropdown-tab ${isDropdownOpen ? "open" : ""} ${
-              formsData.map(({ form_id }) => form_id).includes(id)
+              formsData.map(({ form_id }) => form_id)?.includes(id)
                 ? "active"
                 : ""
             }`}
@@ -132,7 +133,10 @@ const FormDashboard = () => {
         <h1 className="main-heading">{title}</h1>  
       </div>
       <Table data={data} />
-      <RangeToggle value={isPie} onChange={setIsPie} label="Bar" />
+      <div className="d-flex justify-content-between align-items-center w-100" >
+        <RangeToggle value={isPie} onChange={setIsPie} label="Bar" />
+        <DownloadCSV data={data} />
+      </div>
       <AutoDashboard data={data} isPie={isPie} />
     </>
   );

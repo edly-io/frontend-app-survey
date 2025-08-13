@@ -53,7 +53,7 @@ const Table = ({ data }) => {
                 .map(([qid, ans]) => {
                   const vals =
                     ans.textAnswers?.answers?.map((a) => a.value) || [];
-                  if (vals[0].includes('@')) {
+                  if (String(vals[0] ?? '').includes('@')) {
                     email = vals;
                   }
                   return vals.join(", ");

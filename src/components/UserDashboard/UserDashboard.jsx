@@ -4,7 +4,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { getAuthenticatedHttpClient } from "@edx/frontend-platform/auth";
 import { getConfig } from "@edx/frontend-platform";
 
-import { ResponseDetails } from "../TableTemp";
+import { ResponseDetails } from "../Table";
 import Loader from "../Loader";
 
 const UserDashboard = () => {

@@ -9,8 +9,8 @@ export default function RangeToggle({ value = 1, onChange, label }) {
     .range-toggle input[type="range"] {
       -webkit-appearance: none;
       appearance: none;
-      width: 35px;            
-      height: 10px;   
+      width: 40px;            
+      height: 20px;   
       border-radius: 999px;
       padding: 0;
       margin: 0;
@@ -21,15 +21,15 @@ export default function RangeToggle({ value = 1, onChange, label }) {
 
     /* WebKit track & thumb */
     .range-toggle input[type="range"]::-webkit-slider-runnable-track {
-      height: 10px;
+      height: 13px;
       border-radius: 999px;
       background: ${TRACK_COLOR};
     }
     .range-toggle input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 18px;
-      height: 18px;
+      width: 21px;
+      height: 21px;
       margin-top: -4px; /* center thumb */
       border-radius: 50%;
       background: ${THUMB_COLOR};
@@ -78,8 +78,7 @@ export default function RangeToggle({ value = 1, onChange, label }) {
       box-shadow: 0 0 0 4px rgba(190,55,18,0.12);
     }
 
-    .range-label { font-size: 0.9rem; }
-    .range-value { min-width: 18px; text-align: center; font-size: 0.9rem; }
+    .range-label { font-size: 1rem; }
   `;
 
   return (
@@ -95,7 +94,7 @@ export default function RangeToggle({ value = 1, onChange, label }) {
         onChange={(e) => onChange(Number(e.target.value))}
         aria-label={label ?? "Chart type slider"}
       />
-      <strong className="range-value">Pie</strong>
+      <strong className="range-label">Pie</strong>
     </div>
   );
 }

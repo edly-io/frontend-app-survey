@@ -52,7 +52,7 @@ const Dashboard = () => {
 
 
   return (
-   <div className="main-dashboard">
+   <div>
     <h1 className="main-heading">Dashboard</h1>
     <div className="tab-wrapper">
       <ul className="tab-list">
